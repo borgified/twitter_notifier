@@ -14,17 +14,19 @@ my $token			= $config{token};
 my $token_secret		= $config{token_secret};
 
 my $nt = Net::Twitter->new(
-	traits   => [qw/OAuth API::REST/],
+	traits							=> [qw/API::RESTv1_1/],
 	consumer_key        => $consumer_key,
 	consumer_secret     => $consumer_secret,
 	access_token        => $token,
 	access_token_secret => $token_secret,
 );
 
-my %gistconfig = do '/tmp/gists';
+my %gistconfig = do '/secret/gists.config';
 
-my($build,$worker)=@_;
-$nt->update("build #$build has finished on $worker. check it out https://gist.github.com/borgified/$gistconfig{$worker}");
+my($build,$worker)=@ARGV;
+
+
+my $result = $nt->update("build \#$build has finished on $worker. check it out https://gist.github.com/borgified/$gistconfig{$worker}");
 
 if ( my $err = $@ ) {
 	die $@ unless blessed $err && $err->isa('Net::Twitter::Error');
