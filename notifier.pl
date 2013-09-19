@@ -23,7 +23,7 @@ my $nt = Net::Twitter->new(
 
 my %gistconfig = do '/secret/gists.config';
 
-my($build,$worker)=@ARGV;
+my($worker,$build)=@ARGV;
 
 
 my $result = $nt->update("build \#$build has finished on $worker. check it out https://gist.github.com/borgified/$gistconfig{$worker}");
