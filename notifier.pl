@@ -43,8 +43,11 @@ my $status = $job->{result};
 
 #end of get build status
 
+#identify worker
+my %worker = do '/secret/workers.txt';
+#end of identify worker
 
-my $result = $nt->update("build \#$build has finished with status = $status on $worker. check it out https://gist.github.com/borgified/$gistconfig{$worker}");
+my $result = $nt->update("build \#$build has finished with status = $status on $worker ($worker{$worker}). check it out https://gist.github.com/borgified/$gistconfig{$worker}");
 
 if ( my $err = $@ ) {
 	die $@ unless blessed $err && $err->isa('Net::Twitter::Error');
