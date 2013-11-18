@@ -5,6 +5,9 @@ use strict;
 
 use Net::Twitter;
 use Scalar::Util 'blessed';
+use XML::Simple;
+use LWP;
+
 
 my %config = do '/secret/twitter.config';
 
