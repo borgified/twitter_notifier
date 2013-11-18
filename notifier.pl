@@ -25,8 +25,23 @@ my %gistconfig = do '/secret/gists.config';
 
 my($worker,$build)=@ARGV;
 
+#get build status for $worker,$build
 
-my $result = $nt->update("build \#$build has finished on $worker. check it out https://gist.github.com/borgified/$gistconfig{$worker}");
+my $url="http://localhost:8080/job/assimmon/label=$worker/$build/api/xml";
+
+my $ua = LWP::UserAgent->new;
+my $req = HTTP::Request->new( GET => $url);
+my $res = $ua->request( $req );
+
+my $job = XML::Simple->new()->XMLin($res->content);
+
+my $status = $job->{result};
+
+
+#end of get build status
+
+
+my $result = $nt->update("build \#$build has finished with status = $status on $worker. check it out https://gist.github.com/borgified/$gistconfig{$worker}");
 
 if ( my $err = $@ ) {
 	die $@ unless blessed $err && $err->isa('Net::Twitter::Error');
