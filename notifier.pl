@@ -31,7 +31,15 @@ my($worker,$build)=@ARGV;
 
 #get build status for $worker,$build
 
-my $url="http://localhost:8080/job/assimmon/label=$worker/$build/api/xml";
+my $url;
+
+if ($worker eq 'thrall' || $worker eq 'worker64-centos65'){
+	$url="http://localhost:8080/job/assimmon-centos/label=$worker/$build/api/xml";
+}else{
+	$url="http://localhost:8080/job/assimmon/label=$worker/$build/api/xml";
+}
+
+
 
 my $ua = LWP::UserAgent->new;
 my $req = HTTP::Request->new( GET => $url);
