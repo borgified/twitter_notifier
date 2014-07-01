@@ -33,7 +33,8 @@ my($worker,$build)=@ARGV;
 
 my $url;
 
-if ($worker eq 'worker64-centos64' || $worker eq 'worker64-centos65'){
+#if ($worker eq 'worker64-centos64' || $worker eq 'worker64-centos65'){
+if ($worker =~ /worker\d\d-centos\d\d/){
 	$url="http://localhost:8080/job/assimmon-centos/label=$worker/$build/api/xml";
 }else{
 	$url="http://localhost:8080/job/assimmon/label=$worker/$build/api/xml";
