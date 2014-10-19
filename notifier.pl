@@ -27,19 +27,14 @@ my $nt = Net::Twitter->new(
 
 my %gistconfig = do '/secret/gists.config';
 
-my($worker,$build)=@ARGV;
+my($worker,$build,$job_name)=@ARGV;
 
 #get build status for $worker,$build
 
-my $url;
+my @temp = split(/\//,$job_name);
+$job_name = $temp[0];
 
-#if ($worker eq 'worker64-centos64' || $worker eq 'worker64-centos65'){
-if ($worker =~ /worker\d\d-centos\d\d/){
-	$url="http://localhost:8080/job/assimmon-centos/label=$worker/$build/api/xml";
-}else{
-	$url="http://localhost:8080/job/assimmon/label=$worker/$build/api/xml";
-}
-
+my$url="http://localhost:8080/job/$job_name/label=$worker/$build/api/xml";
 
 
 my $ua = LWP::UserAgent->new;
